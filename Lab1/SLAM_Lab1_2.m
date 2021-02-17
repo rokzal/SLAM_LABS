@@ -21,7 +21,7 @@ global config;
 config.step_by_step = 0;
 
 %number of robot motions for each local map
-config.steps_per_map = 10000;
+config.steps_per_map = 100;
 
 % figure counter (to always plot a new figure)
 config.fig = 0;
@@ -255,13 +255,18 @@ function[map] = update_map (map, measurements)
 
     % DO SOMETHING HERE!
     % You need to compute H_k, y_k, S_k, K_k and update map.hat_x and map.hat_P
-    H_k = zeros(max(size(measurements.ids_f)),max(size(map.hat_x)));
-    H_k(:,1) = -1;
-    H_k(1:max(size(measurements.ids_f)),measurements.ids_f+1)=1;
-    y_tilde_k = measurements.z_f  -H_k * map.hat_x';
+    
+    %constants: 
+    m = map.n;f = size(measurements.ids_f,1);i = m - f;
+    
+    %Compute H_k.
+    H_k = [-ones(f,1),zeros(f,i),eye(f,f)];
+
+    %Kalman filter update.
+    y_tilde_k = measurements.z_f  -H_k * map.hat_x;
     S_k = H_k * map.hat_P * H_k' + measurements.R_f;
     K_k = map.hat_P*H_k'/S_k;
-    map.hat_x = (map.hat_x' + K_k * y_tilde_k)';
+    map.hat_x = map.hat_x + K_k * y_tilde_k;
     map.hat_P = (eye(size(map.hat_P))-K_k*H_k)*map.hat_P;
     
     if config.step_by_step
@@ -282,10 +287,22 @@ function [map] = add_new_features (map, measurements)
 
     % DO SOMETHING HERE!
     % update map.hat_x, map.hat_P, map.true_ids, map.true_x, map.n
-    map.hat_x(measurements.ids_n+1) = map.hat_x(1) + measurements.z_k(measurements.z_pos_n);
-    map.true_ids(measurements.ids_n+1) = measurements.ids_n;
-    map.true_x(measurements.ids_n+1) = world.true_point_locations(measurements.ids_n);
-    map.hat_P(measurements.ids_n+1,measurements.ids_n+1) = map.hat_P(1,1)+ measurements.R_k(measurements.z_pos_n,measurements.z_pos_n);
+    %The principled way
+    %constants: 
+    m = map.n;n = size(measurements.ids_n,1);f = size(measurements.ids_f,1);
+    
+    % A and B matrices.
+    A = [eye(m+1,m+1);[ones(n,1),zeros(n,m)]];
+    B = [zeros(m+1,f+n);[zeros(n,f),eye(n,n)]];
+    
+    %Add new features to state vector and covariance matrix.
+    map.hat_x = A*map.hat_x + B*measurements.z_k;
+    map.hat_P = A*map.hat_P*A.' + B*measurements.R_k*B.';
+    
+    %Actuallize meta-data 
+    map.n = map.n + n;
+    map.true_ids = [map.true_ids; measurements.ids_n];
+    map.true_x = [map.true_x;world.true_point_locations(measurements.ids_n)];
 
     if config.step_by_step
         fprintf('Add %d new features...\n',length(measurements.ids_n));
