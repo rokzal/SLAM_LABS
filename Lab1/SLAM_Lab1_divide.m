@@ -27,7 +27,7 @@ config.steps_per_map = 1000;
 config.fig = 0;
 
 %Size of local maps.
-config.map_size = 200;
+config.map_size = 20;
 
 %-------------------------------------------------------------------------
 
@@ -111,14 +111,32 @@ global global_map;
 %-------------------------------------------------------------------------
 % BEGIN
 %-------------------------------------------------------------------------
+sizes = 0:5:50; 
+sizes(1) = 1;
+all_cost = [];
+for size = sizes
+    %config.map_size
+    clear global_map;
+    global global_map;
+    world.true_robot_location = 0;
+    [global_map] = Kalman_filter_slam (global_map, config.steps_per_map,size);
 
-[global_map] = Kalman_filter_slam (global_map, config.steps_per_map,config.map_size);
-
-[final_map] = reconstruct_map(global_map);
-
+    [final_map] = reconstruct_map(global_map);
+    total_cost = sum(final_map.stats.cost_t);
+    all_cost = [all_cost,total_cost];
+end
 display_map_results (final_map);
-%display_map_results (global_map.maps{1});
-%display_map_results (global_map.maps{2});
+
+%Make prettier.
+plot(sizes',all_cost);
+
+%Fix, doesn't work.
+%[improved_map] = depurate_map(final_map);
+
+
+
+%display_map_results (improved_map);
+
 
 %-------------------------------------------------------------------------
 % END
@@ -157,6 +175,66 @@ for k = 2:global_map.i
 
 end
 end
+
+%-------------------------------------------------------------------------
+% add local maps fusing repeated features.
+%-------------------------------------------------------------------------
+function[global_map] = depurate_map(global_map)
+global world;
+%Identify repeated features.
+uni = unique(global_map.true_ids); % which will give you the unique elements of A in array B
+Ncount = histc(global_map.true_ids,uni); % this willgive the number of occurences of each unique element
+repeated_ids = uni(Ncount>1)';
+first = [];
+second = [];
+for id = repeated_ids
+    pos = find(global_map.true_ids' == id);
+    first = [first,pos(1)];
+    second = [second,pos(2)];
+end 
+
+
+positions = global_map.true_ids == id;
+%Kalman Filter update of repeated features.
+%Extract second appereance of features.
+z_f = global_map.hat_x(second);
+R_f = global_map.hat_P(second,second);
+%Remove second appereance of features from map.
+global_map.hat_x(second) = [];
+global_map.hat_P(second,:) = [];
+global_map.hat_P(:,second) = [];
+
+global_map.true_ids(second) = [];
+global_map.true_x(second) = [];
+global_map.n = global_map.n - max(size(second));
+
+first = [];
+for id = repeated_ids
+    pos = find(global_map.true_ids' == id);
+    first = [first,pos];
+end 
+
+%constants:  
+m = global_map.n;
+f = size(first,2);
+i = m - f;
+
+%Compute H_k.
+H_k = zeros(f,m + 1);
+indices = first * f + [1:f];
+H_k(indices)=1;
+%H_k = [zeros(f,1),zeros(f,i),eye(f,f)];
+
+%Kalman filter update.
+y_tilde_k = z_f  -H_k * global_map.hat_x;
+S_k = H_k * global_map.hat_P * H_k' + R_f;
+K_k = global_map.hat_P*H_k'/S_k;
+%K_k = map.hat_P*H_k'*inv(S_k);
+global_map.hat_x = global_map.hat_x + K_k * y_tilde_k;
+global_map.hat_P = (eye(size(global_map.hat_P))-K_k*H_k)*global_map.hat_P;
+
+end
+
 %-------------------------------------------------------------------------
 % Kalman_filter_slam
 %-------------------------------------------------------------------------
