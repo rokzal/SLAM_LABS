@@ -111,45 +111,31 @@ global global_map;
 %-------------------------------------------------------------------------
 % BEGIN
 %-------------------------------------------------------------------------
-sizes = 5:5:100; 
-%sizes =[sizes, config.steps_per_map+5];
+sizes = 5:5:50; 
+sizes =[ 1;
 %sizes = [20];
 all_cost = [];
-trials = 10;
-trial_cost = [];
-for i =1:trials
-    all_cost = [];
-    for size = sizes
-        %config.map_size
-        clear global_map;
-        global global_map;
-        world.true_robot_location = 0;
-        [global_map] = Kalman_filter_slam (global_map, config.steps_per_map,size);
+for size = sizes
+    %config.map_size
+    clear global_map;
+    global global_map;
+    world.true_robot_location = 0;
+    [global_map] = Kalman_filter_slam (global_map, config.steps_per_map,size);
 
-        [final_map] = reconstruct_map(global_map);
-        total_cost = sum(final_map.stats.cost_t);
-        all_cost = [all_cost,total_cost];
-    end
-    trial_cost = [trial_cost;all_cost];
+    [final_map] = reconstruct_map(global_map);
+    total_cost = sum(final_map.stats.cost_t);
+    all_cost = [all_cost,total_cost];
 end
+%display_map_results (final_map);
 
-
-average_times = mean(trial_cost);
 %Make prettier.
-plot(sizes',average_times);
-config.fig = config.fig + 1;
-figure(config.fig);
-xlabel('Size of local Map.');
-ylabel('Time(s).');
-title('Execution time given local map size.');
-
+plot(sizes',all_cost);
 
 %Fix, doesn't work.
 [improved_map] = depurate_map(final_map);
 
 
 
-%display_map_results (final_map);
 %display_map_results (improved_map);
 
 
