@@ -111,12 +111,14 @@ global global_map;
 %-------------------------------------------------------------------------
 % BEGIN
 %-------------------------------------------------------------------------
-sizes = 5:5:100; 
-%sizes =[sizes, config.steps_per_map+5];
-%sizes = [20];
-all_cost = [];
+sizes = 5:1:100; 
 trials = 10;
 trial_cost = [];
+all_cost = [];
+
+
+%sizes = [25];
+%trials = 1;
 for i =1:trials
     all_cost = [];
     for size = sizes
@@ -125,9 +127,14 @@ for i =1:trials
         global global_map;
         world.true_robot_location = 0;
         [global_map] = Kalman_filter_slam (global_map, config.steps_per_map,size);
-
+        
+        tstart = tic;
+        
         [final_map] = reconstruct_map(global_map);
+        [improved_map] = depurate_map(final_map);
+     
         total_cost = sum(final_map.stats.cost_t);
+        total_cost = total_cost+ toc(tstart);
         all_cost = [all_cost,total_cost];
     end
     trial_cost = [trial_cost;all_cost];
@@ -144,13 +151,12 @@ ylabel('Time(s).');
 title('Execution time given local map size.');
 
 
-%Fix, doesn't work.
-[improved_map] = depurate_map(final_map);
 
 
 
-%display_map_results (final_map);
-%display_map_results (improved_map);
+
+display_map_results (final_map);
+display_map_results (improved_map);
 
 
 %-------------------------------------------------------------------------

@@ -1,6 +1,6 @@
 r = 1;
 m = 2;
-P = 1000;
+P = 100;
 
 onemaparray = [];
 manymaparray = [];
