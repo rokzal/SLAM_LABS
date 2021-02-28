@@ -1,7 +1,7 @@
 %-------------------------------------------------------------------------
 % University of Zaragoza
 %
-% Author:  J. Neira
+% Author:  U. Ramón and L. Cano
 %-------------------------------------------------------------------------
 % SLAM for Karel the robot in 1D
 %-------------------------------------------------------------------------
@@ -21,7 +21,7 @@ global config;
 config.step_by_step = 0;
 
 %number of robot motions for each local map
-config.steps_per_map = 100;
+config.steps_per_map = 1000;
 
 % figure counter (to always plot a new figure)
 config.fig = 0;
@@ -111,13 +111,13 @@ global global_map;
 %-------------------------------------------------------------------------
 % BEGIN
 %-------------------------------------------------------------------------
-sizes = 5:1:100; 
+sizes = 5:5:1000; 
 trials = 10;
 trial_cost = [];
 all_cost = [];
 
 
-%sizes = [25];
+%sizes = [50];
 %trials = 1;
 for i =1:trials
     all_cost = [];

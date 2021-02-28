@@ -1,18 +1,21 @@
 r = 1;
 m = 2;
-P = 100;
+P = 1000;
 
 onemaparray = [];
 manymaparray = [];
-for p = 1:1:100
+for p = 1:1:1000
     [C1map, C_many] = get_cost(r,m,P,p);
     onemaparray = [onemaparray, C1map];
     manymaparray = [manymaparray, C_many];
 end
 
-plot(1:1:100, onemaparray);
+plot(1:1:1000, onemaparray);
 hold on
-plot(1:1:100, manymaparray);
+plot(1:1:1000, manymaparray);
+xlabel('Size of local Map.');
+ylabel('Number of operations.');
+title('Theoretical number of operations given local map size.');
 
 function [C1map,C_total] = get_cost(r,m,P,p)
 %r   = 1;

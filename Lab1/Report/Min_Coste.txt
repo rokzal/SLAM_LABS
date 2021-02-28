@@ -1,0 +1,3 @@
+practico : 0.44 s, size 80. (5,5).
+
+teorico : 8.74, 79.
