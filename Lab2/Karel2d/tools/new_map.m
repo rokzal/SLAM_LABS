@@ -17,6 +17,6 @@ ground.trajectory(1).x = [0 0 0]';
 ground.trajectory(1).P = zeros(3, 3);
 
 map.origin = [0,0];
-new_size = ceil(sensor_range / resolution);
-map.teselated = zeros(2*new_size,2*new_size);
+new_size = sensor_range;
+map.teselated = zeros(ceil(2*new_size/ resolution),ceil(2*new_size/ resolution));
 map.origin = [-new_size,-new_size];

@@ -31,5 +31,5 @@ compatibility.HS = prod(compatibility.AL + 1);
 
 %%Teselated map
 
-compatibility.tess = zeros()
+compatibility.tess = zeros();
 
