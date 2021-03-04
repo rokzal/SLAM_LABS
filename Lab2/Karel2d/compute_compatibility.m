@@ -28,3 +28,8 @@ compatibility.candidates.observations = find(sum(compatibility.ic, 2))';
 compatibility.AL = (sum (compatibility.ic, 2))';
 compatibility.HS = prod(compatibility.AL + 1);
 
+
+%%Teselated map
+
+compatibility.tess = zeros()
+

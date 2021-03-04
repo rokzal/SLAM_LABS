@@ -1,5 +1,5 @@
 %-------------------------------------------------------
-function [map, ground] = new_map(map, ground),
+function [map, ground] = new_map(map, ground,sensor_range,resolution),
 %-------------------------------------------------------
 
 map.n = 0;
@@ -15,3 +15,8 @@ map.odometry(1).P = map.P;
 
 ground.trajectory(1).x = [0 0 0]';
 ground.trajectory(1).P = zeros(3, 3);
+
+map.origin = [0,0];
+new_size = ceil(sensor_range / resolution);
+map.teselated = zeros(2*new_size,2*new_size);
+map.origin = [-new_size,-new_size];

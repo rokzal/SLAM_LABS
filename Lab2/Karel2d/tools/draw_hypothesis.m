@@ -34,7 +34,7 @@ if configuration.step_by_step
     end
     
     d2 = joint_mahalanobis2 (prediction, observations, H);
-    dof = 2*length(find(H));
+    dof = max(1,2*length(find(H)));
     title([name ': ' sprintf('%d ', H) sprintf(', d^2 %f, chi^2 %f', d2, chi2(dof))]);
     %analyze_hypothesis (prediction, observations, H);
     pause

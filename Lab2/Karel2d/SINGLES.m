@@ -19,6 +19,16 @@ H = zeros(1, observations.m);
 %
 % compatibility.ic(i,j) = 1 if observation i is a neighbour of
 % feature j.
-
+for i = 1:observations.m
+    compat_features = compatibility.ic(i,:);
+    if (sum(compat_features) ==1)
+        [~,j] = max(compat_features);
+        compat_measurments = compatibility.ic(:,j);
+        if (sum(compat_measurments) == 1)
+            H(i) = j;
+        end
+    else 
+    end
+end
             
 configuration.name = 'SINGLES';

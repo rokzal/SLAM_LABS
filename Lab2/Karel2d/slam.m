@@ -15,12 +15,14 @@ global configuration;
 
 configuration.ellipses = 1;
 configuration.tags = 0;
-configuration.odometry = 1;
+configuration.odometry = 0;
 configuration.noise = 1;
 configuration.alpha = 0.99; % only useful is chi2inv is available
 configuration.step_by_step = 0;
 configuration.people = 0;
 configuration.ekf_iterations = 4;
+configuration.algorithm = 'SINGLES';
+configuration.resolution = 1; %Number of unit per pixel.
 
 % figure numbers
 configuration.ground = 1;
@@ -42,6 +44,8 @@ global map;
 %         first: first time a feature was detected
 %     estimated: history of estimated robot location
 %      odometry: history of  robot odometry
+%     teselated: teselated map.
+%      origin  : origin of teselated map.
      
 
 %-------------------------------------------------------
@@ -108,7 +112,7 @@ load 'data/chi2';
 [ground, people] = generate_cloister_experiment;
 
 % start with a fresh map
-[map, ground] = new_map(map, ground);
+[map, ground] = new_map(map, ground,sensor.range,configuration.resolution );
 
 % plot ground
 draw_ground(ground);
@@ -157,7 +161,7 @@ for step = 2 : steps
     observations = get_observations(ground, sensor, step);
     
     %data association
-    [H, GT, compatibility] = data_association(map, observations, step);
+    [H, GT, compatibility] = data_association(map, observations, step,configuration.algorithm,sensor.range);
     
     % update EKF step
     map = EKF_update (map, observations, H);
@@ -165,6 +169,7 @@ for step = 2 : steps
     % only new features with no neighbours
     map = add_new_features (map, observations, step, H);
     
+    map = update_map(map,H,configuration.resolution,sensor.range);
     % map maintenance:
     %
     % map.hits(i): number of times feature i has been observed

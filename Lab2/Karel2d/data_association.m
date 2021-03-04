@@ -1,5 +1,5 @@
 %-------------------------------------------------------
-function [H, GT, compatibility] = data_association(map, observations, step),
+function [H, GT, compatibility] = data_association(map, observations, step,algorithm,sensor_range),
 %-------------------------------------------------------
 global configuration ground;
 
@@ -19,7 +19,14 @@ disp(['GROUND  TRUTH: ' sprintf('%2d  ', GT)]);
 % 4. Have some time in your hands? Program JCBB and try it.∗
 % 5. Still some time in your hands? Randomize Joint Compatibility, combining ideas from RANSAC and JCBB.∗∗
 
-H = NN (prediction, observations, compatibility);
+switch algorithm
+    case 'NN'
+        H = NN(prediction, observations, compatibility);
+    case 'SINGLES'
+        H = SINGLES(prediction, observations, compatibility);
+    otherwise 
+        H = NN(prediction, observations, compatibility);
+end
 
 disp(['MY HYPOTHESIS: ' sprintf('%2d  ', H)]);
 disp(['Correct (1/0)? ' sprintf('%2d  ', GT == H)]);
