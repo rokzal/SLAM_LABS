@@ -21,8 +21,9 @@ configuration.alpha = 0.99; % only useful is chi2inv is available
 configuration.step_by_step = 0;
 configuration.people = 0;
 configuration.ekf_iterations = 4;
-configuration.algorithm = 'SINGLES';
+configuration.algorithm = 'JCBB';
 configuration.resolution = 0.1; %Number of unit per pixel.
+configuration.maintenance = 1;
 
 % figure numbers
 configuration.ground = 1;
@@ -161,22 +162,35 @@ for step = 2 : steps
     observations = get_observations(ground, sensor, step);
     
     %data association
-    [H, GT, compatibility] = data_association(map, observations, step,configuration.algorithm,sensor.range);
+    [H, GT, compatibility] = data_association(map, observations, step,configuration.algorithm,sensor.range,configuration.resolution);
     
     % update EKF step
     map = EKF_update (map, observations, H);
     
     % only new features with no neighbours
-    map = add_new_features (map, observations, step, H);
+    map = add_new_features (map, observations, step, H,sensor.range,configuration.resolution);
     
     map = update_map(map,H,configuration.resolution,sensor.range);
     % map maintenance:
-    %
+    if configuration.maintenance
+        unreliable = [];
+        for i = 1:map.n 
+            if map.hits(i) == 1 
+                if map.first(i) + 2 <= step & map.first > 1
+                    unreliable = [unreliable,i];
+                end 
+            end
+
+        end
+    
+        map = erase_features(map, unreliable);
+    end
     % map.hits(i): number of times feature i has been observed
     % map.fist(i): step in which feature i was first observed
     %
     % unreliable = "features seen only once, more than two steps ago";
     % map = erase_features(map, unreliable);
+    
     
     results = store_results(results, observations, GT, H);
 end

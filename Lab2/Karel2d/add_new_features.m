@@ -1,9 +1,9 @@
 %-------------------------------------------------------
-function map = add_new_features (map, observations, step, H)
+function map = add_new_features (map, observations, step, H,sensor_range,resolution)
 %-------------------------------------------------------
 
 prediction = predict_observations (map);
-compatibility = compute_compatibility (prediction, observations);
+compatibility = compute_compatibility (prediction, observations,map,sensor_range,resolution,1);
 new = find((H == 0) & (compatibility.AL == 0));
 
 if nnz(new)

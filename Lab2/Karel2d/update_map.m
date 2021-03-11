@@ -33,14 +33,15 @@ if (min_xy(2) < map.origin(2))
 end
 
 %Locate predictions
-map.teselated(:,:) = 0;
-x = map.x(4:2:end);
-y = map.x(5:2:end);
-for i = 1:map.n
-    feature_pos = [x(i);y(i)];
-    feature_pos = feature_pos - map.origin';
-    map_pos = ceil(feature_pos /resolution);
-    map.teselated(map_pos(1),map_pos(2)) = i;
-end
-%figure(10);
-%imshow(map.teselated);
+% map.teselated(:,:) = 0;
+% x = map.x(4:2:end);
+% y = map.x(5:2:end);
+% for i = 1:map.n
+%     feature_pos = [x(i);y(i)];
+%     feature_pos = feature_pos - map.origin';
+%     map_pos = ceil(feature_pos /resolution);
+%     
+%     map.teselated(map_pos(1),map_pos(2)) = i;
+% end
+% figure(10);
+% imshow(map.teselated);

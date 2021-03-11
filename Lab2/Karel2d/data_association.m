@@ -1,11 +1,11 @@
 %-------------------------------------------------------
-function [H, GT, compatibility] = data_association(map, observations, step,algorithm,sensor_range),
+function [H, GT, compatibility] = data_association(map, observations, step,algorithm,sensor_range,resolution)
 %-------------------------------------------------------
 global configuration ground;
 
 % individual compatibility
 prediction = predict_observations (map);
-compatibility = compute_compatibility (prediction, observations);
+compatibility = compute_compatibility (prediction, observations,map,sensor_range,resolution,0);
 
 % ground truth
 GT = ground_solution(map, observations);
@@ -24,6 +24,8 @@ switch algorithm
         H = NN(prediction, observations, compatibility);
     case 'SINGLES'
         H = SINGLES(prediction, observations, compatibility);
+    case 'JCBB'
+        H = JCBB(prediction, observations, compatibility);
     otherwise 
         H = NN(prediction, observations, compatibility);
 end
