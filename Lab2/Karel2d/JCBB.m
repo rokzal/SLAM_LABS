@@ -5,7 +5,7 @@ global configuration;
 H = zeros(1, observations.m);
 
 H = JCBB_rec (H,1,H,prediction, observations, compatibility)
-
+configuration.name = 'JCBB';
 end
 
 function Best = JCBB_rec (Best,i,H,prediction, observations, compatibility)
@@ -44,15 +44,7 @@ function res = JointCompatibility(H,i_new,j_new,prediction,observations,compatib
     all_indi = [];
     all_indj = [];
     res = 0;
-%     for i = 1:observations.m
-%         j = H(i);
-%         if j > 0
-%             [~, ~, indi] = obs_rows(i);
-%             [~, ~, indj] = obs_rows(j);
-%             all_indi = [all_indi;indi];
-%             all_indj = [all_indj;indj];
-%         end
-%     end
+
     i = find(H);
     j = H(i);
     [~, ~, indi] = obs_rows(i);

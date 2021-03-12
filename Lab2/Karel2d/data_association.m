@@ -26,6 +26,8 @@ switch algorithm
         H = SINGLES(prediction, observations, compatibility);
     case 'JCBB'
         H = JCBB(prediction, observations, compatibility);
+    case 'RJC'
+        H = RJC(prediction, observations, compatibility);
     otherwise 
         H = NN(prediction, observations, compatibility);
 end
