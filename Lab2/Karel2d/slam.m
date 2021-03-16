@@ -19,11 +19,11 @@ configuration.odometry = 1;
 configuration.noise = 1;
 configuration.alpha = 0.99; % only useful is chi2inv is available
 configuration.step_by_step = 0;
-configuration.people = 1;
+configuration.people = 0;
 configuration.ekf_iterations = 4;
-configuration.algorithm = 'RJC';
+configuration.algorithm = 'NN';
 configuration.resolution = 0.1; %Number of unit per pixel.
-configuration.maintenance = 1;
+configuration.maintenance = 0;
 
 % figure numbers
 configuration.ground = 1;

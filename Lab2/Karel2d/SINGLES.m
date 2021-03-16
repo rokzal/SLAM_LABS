@@ -1,8 +1,7 @@
 %-------------------------------------------------------
-function H = SINGLES (prediction, observations, compatibility)
+function H = SINGLES (predictions, observations, compatibility)
 %-------------------------------------------------------
 
-global chi2;
 global configuration;
 
 H = zeros(1, observations.m);
@@ -19,6 +18,7 @@ H = zeros(1, observations.m);
 %
 % compatibility.ic(i,j) = 1 if observation i is a neighbour of
 % feature j.
+
 for i = 1:observations.m
     compat_features = compatibility.ic(i,:);
     if (sum(compat_features) ==1)
