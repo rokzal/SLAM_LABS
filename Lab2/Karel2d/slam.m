@@ -15,13 +15,13 @@ global configuration;
 
 configuration.ellipses = 1;
 configuration.tags = 0;
-configuration.odometry = 1;
+configuration.odometry = 0;
 configuration.noise = 1;
 configuration.alpha = 0.99; % only useful is chi2inv is available
 configuration.step_by_step = 0;
 configuration.people = 0;
 configuration.ekf_iterations = 4;
-configuration.algorithm = 'NN';
+configuration.algorithm = 'SINGLES';
 configuration.resolution = 0.1; %Number of unit per pixel.
 configuration.maintenance = 0;
 
