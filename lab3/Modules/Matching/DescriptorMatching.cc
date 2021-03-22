@@ -56,10 +56,43 @@ int searchForInitializaion(Frame& refFrame, Frame& currFrame, int th, vector<int
         if(vRefKeys[i].octave > maxOctave){
             continue;
         }
-
         /*
-         * Your code for task 1 here!
-         */
+        * Your code for task 1 here!
+        */
+        //Clear previous matches
+        vIndicesToCheck.clear();
+        //get keypoint
+        auto keypoint = vRefKeys[i];
+
+        //Get keypoints within selected distance.
+        float radius = 50;
+        currFrame.getFeaturesInArea(keypoint.pt.x,keypoint.pt.y,radius,0,0,vIndicesToCheck);
+
+        //Match with the one with the smallest Hamming distance
+        int bestDist = 255, secondBestDist = 255;
+        size_t bestIdx;
+        for(auto j : vIndicesToCheck){
+        //for(size_t j = 0; j < currDesc.size[0];j++){
+            //if(currFrame.getMapPoint(j)){
+            //    continue;
+            //}
+
+            int dist = HammingDistance(refDesc.row(i),currDesc.row(j));
+
+            if(dist < bestDist){
+                secondBestDist = bestDist;
+                bestDist = dist;
+                bestIdx = j;
+            }
+            else if(dist < secondBestDist){
+                secondBestDist = dist;
+            }
+        }
+        if(bestDist <= th && (float)bestDist < (float(secondBestDist)*0.9)){
+            vMatches[i] = bestIdx;
+            nMatches++;
+        }
+
     }
 
     for(size_t i = 0; i < vMatches.size(); i++){
@@ -67,7 +100,6 @@ int searchForInitializaion(Frame& refFrame, Frame& currFrame, int th, vector<int
             vPrevMatched[i]=currFrame.getKeyPoint(vMatches[i]).pt;
         }
     }
-
     return nMatches;
 }
 
