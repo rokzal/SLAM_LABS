@@ -2,7 +2,6 @@
 /lab3/Apps/*
 /lab3/build_thirdparty.sh
 /lab3/build_SLAM.sh
-/lab3/CmakeLists.txt
 /lab3/Data/*
 /lab3/Evaluation/*
 /lab3/Thirdparty/*
