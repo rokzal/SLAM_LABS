@@ -48,7 +48,6 @@ namespace g2o {
         m_solver{std::move(solver)} {
     _userLambdaInit = _properties.makeProperty<Property<number_t> >("initialLambda", 0.);
     _maxTrialsAfterFailure = _properties.makeProperty<Property<int> >("maxTrialsAfterFailure", 10);
-      _nBad = 0;
   }
 
   OptimizationAlgorithmLevenberg::~OptimizationAlgorithmLevenberg()
@@ -78,8 +77,6 @@ namespace g2o {
 
     number_t currentChi = _optimizer->activeRobustChi2();
 
-      double iniChi = currentChi;
-
     _solver.buildSystem();
     if (globalStats) {
       globalStats->timeQuadraticForm = get_monotonic_time()-t;
@@ -89,7 +86,6 @@ namespace g2o {
     if (iteration == 0) {
       _currentLambda = computeLambdaInit();
       _ni = 2;
-        _nBad = 0;
     }
 
     number_t rho=0;
@@ -148,16 +144,6 @@ namespace g2o {
 
     if (qmax == _maxTrialsAfterFailure->value() || rho==0 || !g2o_isfinite(_currentLambda))
       return Terminate;
-
-      //Stop criterium (Raul)
-      if((iniChi-currentChi)*1e3<iniChi)
-          _nBad++;
-      else
-          _nBad=0;
-
-      if(_nBad>=3)
-          return Terminate;
-
     return OK;
   }
 

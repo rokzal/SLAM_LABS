@@ -117,6 +117,8 @@ else()
   set(CHOLMOD_FOUND FALSE)
 endif()
 
+set(CHOLMOD_FOUND FALSE)
+
 # For building the CSparse based solvers
 option(G2O_USE_CSPARSE "Build g2o with CSParse support" ON)
 find_package(CSparse)
@@ -185,6 +187,8 @@ set(G2O_BUILD_EXAMPLES ON CACHE BOOL "Build g2o examples")
 if(G2O_BUILD_EXAMPLES)
   message(STATUS "Compiling g2o examples")
 endif(G2O_BUILD_EXAMPLES)
+
+set(G2O_BUILD_EXAMPLES FALSE)
 
 option(G2O_FAST_MATH "Enable fast math operations" OFF)
 option(G2O_NO_IMPLICIT_OWNERSHIP_OF_OBJECTS "Disables memory management in the graph types, this requires the callers to manager the memory of edges and nodes" OFF)

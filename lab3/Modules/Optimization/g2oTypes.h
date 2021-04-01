@@ -78,7 +78,7 @@ public:
          * Your code for task 3 here! Example:
          * _error = Eigen::Vector2d::Ones()*100;
          */
-
+        
     }
 
     bool isDepthPositive() {

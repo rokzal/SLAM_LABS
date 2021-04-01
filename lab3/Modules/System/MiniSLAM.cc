@@ -53,7 +53,7 @@ bool MiniSLAM::processImage(const cv::Mat &im, const double timestamp, Sophus::S
 
     //Do mapping
     shared_ptr<KeyFrame> lastKeyFrame = tracker_.getLastKeyFrame();
-    mapper_.doMapping(lastKeyFrame);
+    //mapper_.doMapping(lastKeyFrame);
 
     //Update viewer windows
     visualizer_->updateWindows();

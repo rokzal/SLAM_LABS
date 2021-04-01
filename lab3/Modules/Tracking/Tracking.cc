@@ -16,6 +16,7 @@
 */
 
 
+#include <Utils/Geometry.h>
 #include "Tracking.h"
 
 #include "Features/FAST.h"
@@ -264,6 +265,8 @@ bool Tracking::monocularMapInitialization() {
     //Run a Bundle Adjustment to refine the solution
     bundleAdjustment(pMap_.get());
 
+    triangulateExtraMapPoints();
+
     Tcw = kf1->getPose();
     currFrame_.setPose(Tcw);
 
@@ -277,6 +280,116 @@ bool Tracking::monocularMapInitialization() {
     bInserted = true;
 
     return true;
+}
+
+void Tracking::triangulateExtraMapPoints() {
+    //Match features without a MapPoint matched
+    shared_ptr<KeyFrame> pKF1 = pMap_->getKeyFrame(0);
+    shared_ptr<KeyFrame> pKF2 = pMap_->getKeyFrame(1);
+
+    vector<shared_ptr<MapPoint>> vMPs1 = pKF1->getMapPoints();
+    vector<shared_ptr<MapPoint>> vMPs2 = pKF2->getMapPoints();
+
+    cv::Mat desc1 = pKF1->getDescriptors();
+    cv::Mat desc2 = pKF2->getDescriptors();
+
+    Sophus::SE3f T1w = pKF1->getPose();
+    Sophus::SE3f T2w = pKF2->getPose();
+
+    Sophus::SE3f T21 = T2w*T1w.inverse();
+    Eigen::Matrix<float,3,3> E = computeEssentialMatrixFromPose(T21);
+
+    shared_ptr<CameraModel> calibration = pKF1->getCalibration();
+
+    int nNew = 0;
+
+    for(size_t i = 0; i < vMPs1.size(); i++){
+        if(vMPs1[i]){
+            continue;
+        }
+
+        Eigen::Vector3f ray1 = (E*calibration->unproject(pKF1->getKeyPoint(i).pt).transpose()).normalized();
+
+        int bestDist = 255;
+        size_t bestIdx;
+        for(size_t j = 0; j < vMPs2.size(); j++){
+            if(vMPs2[j]){
+                continue;
+            }
+
+            int dist = HammingDistance(desc1.row(i),desc2.row(j));
+
+            if(dist > 50){
+                continue;
+            }
+
+            Eigen::Vector3f ray2 = calibration->unproject(pKF2->getKeyPoint(j).pt).normalized();
+
+            float err = fabs(M_PI/2 - acos(ray2.dot(ray1)));
+            if(err < settings_.getEpipolarTh()){
+                bestDist = dist;
+                bestIdx = j;
+            }
+        }
+        if(bestDist < settings_.getMatchingForTriangulationTh()){
+            //Get matched KeyPoints
+            cv::KeyPoint kp1 = pKF1->getKeyPoint(i);
+            cv::KeyPoint kp2 = pKF2->getKeyPoint(bestIdx);
+
+            //Check parallax between rays
+            Eigen::Vector3f ray1 = calibration->unproject(kp1.pt.x,kp1.pt.y).normalized();
+            Eigen::Vector3f ray2 = calibration->unproject(kp2.pt.x,kp2.pt.y).normalized();
+
+            Eigen::Vector3f ray1_w = T1w.inverse().rotationMatrix() * ray1;
+            Eigen::Vector3f ray2_w = T2w.inverse().rotationMatrix() * ray2;
+
+            const float cosParallax = cosRayParallax(ray1_w,ray2_w);
+
+            if(cosParallax < settings_.getMinCos()) {
+                //Triangulate a 3D point
+                Eigen::Vector3f p3D;
+                triangulate(ray1, ray2, T1w, T2w, p3D);
+
+                //Check that the triangulated point lies in front of the cameras
+                Eigen::Vector3f p3D1 = T1w * p3D;
+                Eigen::Vector3f p3D2 = T2w * p3D;
+
+                if (p3D1(2) <= 0) {
+                    continue;
+                }
+
+                if (p3D2(2) <= 0) {
+                    continue;
+                }
+
+                //Check reprojection error
+                cv::Point2f uv1 = calibration->project(p3D1);
+                float sigmaSquared1 = pKF1->getSigma2(kp1.octave);
+                if (squaredReprojectionError(kp1.pt, uv1) > 5.991 * sigmaSquared1) {
+                    continue;
+                }
+
+                cv::Point2f uv2 = calibration->project(p3D2);
+                float sigmaSquared2 = pKF2->getSigma2(kp2.octave);
+                if (squaredReprojectionError(kp2.pt, uv2) > 5.991 * sigmaSquared2) {
+                    continue;
+                }
+
+                shared_ptr<MapPoint> pMP(new MapPoint(p3D));
+
+                pMap_->insertMapPoint(pMP);
+
+                pKF1->setMapPoint(i, pMP);
+                pKF2->setMapPoint(bestIdx, pMP);
+
+                pMap_->addObservation(pKF1->getId(), pMP->getId(), i);
+                pMap_->addObservation(pKF2->getId(), pMP->getId(), bestIdx);
+
+                nNew++;
+            }
+        }
+    }
+    bundleAdjustment(pMap_.get());
 }
 
 bool Tracking::cameraTracking() {
@@ -335,7 +448,7 @@ bool Tracking::trackLocalMap() {
 }
 
 bool Tracking::needNewKeyFrame() {
-    return true;
+    return false;
 }
 
 void Tracking::promoteCurrentFrameToKeyFrame() {
