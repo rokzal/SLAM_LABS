@@ -72,12 +72,16 @@ public:
         const VertexSBAPointXYZ* v2 = static_cast<const VertexSBAPointXYZ*>(_vertices[0]);
         Eigen::Vector2d obs(_measurement);      //Observed point in the image
         Eigen::Vector3d p3Dw = v2->estimate();  //Predicted 3D world position  of the point
-        g2o::SE3Quat Tcw = v1->estimate();      //Preficted camera pose
+        g2o::SE3Quat Tcw = v1->estimate();      //Predicted camera pose
 
         /*
          * Your code for task 3 here! Example:
          * _error = Eigen::Vector2d::Ones()*100;
          */
+        Eigen::Vector2d projected;
+        p3Dw = Tcw.map(p3Dw);
+        projected = pCamera->project(p3Dw);
+        _error = Eigen::Vector2d(obs[0]-projected[0],obs[1]-projected[1]);
         
     }
 
@@ -111,6 +115,10 @@ public:
         * Your code for task 3 here! Example:
         * _error = Eigen::Vector2d::Ones()*100;
         */
+        Eigen::Vector2d projected;
+        Eigen::Vector3d p3Dw = Tcw.map(Xworld);
+        projected = pCamera->project(p3Dw);
+        _error = Eigen::Vector2d(obs[0]-projected[0],obs[1]-projected[1]);
     }
 
     bool isDepthPositive() {

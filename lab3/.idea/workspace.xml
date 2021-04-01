@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
+    <generated />
+  </component>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" ENABLED="true" />
+    </configurations>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="85335c6e-9b95-4cc9-b146-bbe1b9ec9ee5" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/Modules/Calibration/PinHole.cc" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/Calibration/PinHole.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/Matching/DescriptorMatching.cc" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/Matching/DescriptorMatching.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/Optimization/g2oTypes.h" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/Optimization/g2oTypes.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/Tracking/Tracking.cc" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/Tracking/Tracking.cc" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="ProjectId" id="1q7auruXNybicPzRENiug1QgL6C" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="cf.first.check.clang-format" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
+  </component>
+  <component name="RunManager">
+    <configuration name="mono_tumrgbd" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS=" $PROJECT_DIR$/../../datasets/rgbd_dataset_freiburg1_xyz" REDIRECT_INPUT="false" ELEVATE="false" WORKING_DIR="file://$PROJECT_DIR$" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Project" TARGET_NAME="mono_tumrgbd" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Project" RUN_TARGET_NAME="mono_tumrgbd">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="com.jetbrains.cidr.cpp.gradle.execution.GradleNativeBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="85335c6e-9b95-4cc9-b146-bbe1b9ec9ee5" name="Default Changelist" comment="" />
+      <created>1616433307873</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1616433307873</updated>
+      <workItem from="1616433309026" duration="989000" />
+      <workItem from="1617278927175" duration="503000" />
+      <workItem from="1617279436400" duration="837000" />
+      <workItem from="1617281475484" duration="170000" />
+      <workItem from="1617281656849" duration="51000" />
+      <workItem from="1617281716984" duration="9101000" />
+      <workItem from="1617307367638" duration="143000" />
+      <workItem from="1617307549928" duration="4000" />
+      <workItem from="1617308531921" duration="310000" />
+      <workItem from="1617308854220" duration="77000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
