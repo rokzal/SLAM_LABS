@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
-    <generated />
+    <generated>
+      <config projectName="Mini-SLAM" targetName="mono_tumrgbd" />
+      <config projectName="Mini-SLAM" targetName="mini_slam" />
+      <config projectName="Mini-SLAM" targetName="mono_euroc" />
+    </generated>
   </component>
   <component name="CMakeSettings">
     <configurations>
@@ -10,10 +14,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="85335c6e-9b95-4cc9-b146-bbe1b9ec9ee5" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/Modules/Calibration/PinHole.cc" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/Calibration/PinHole.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/lab3.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/lab3.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Apps/mono_tumrgbd" beforeDir="false" afterPath="$PROJECT_DIR$/Apps/mono_tumrgbd" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Modules/Matching/DescriptorMatching.cc" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/Matching/DescriptorMatching.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Modules/Optimization/g2oTypes.h" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/Optimization/g2oTypes.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Modules/Tracking/Tracking.cc" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/Tracking/Tracking.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Thirdparty/g2o/lib/libg2o_cli.so" beforeDir="false" afterPath="$PROJECT_DIR$/Thirdparty/g2o/lib/libg2o_cli.so" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Thirdparty/g2o/lib/libg2o_core.so" beforeDir="false" afterPath="$PROJECT_DIR$/Thirdparty/g2o/lib/libg2o_core.so" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Thirdparty/g2o/lib/libg2o_hierarchical.so" beforeDir="false" afterPath="$PROJECT_DIR$/Thirdparty/g2o/lib/libg2o_hierarchical.so" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Thirdparty/g2o/lib/libg2o_simulator.so" beforeDir="false" afterPath="$PROJECT_DIR$/Thirdparty/g2o/lib/libg2o_simulator.so" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Thirdparty/g2o/lib/libg2o_solver_dense.so" beforeDir="false" afterPath="$PROJECT_DIR$/Thirdparty/g2o/lib/libg2o_solver_dense.so" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Thirdparty/g2o/lib/libg2o_solver_eigen.so" beforeDir="false" afterPath="$PROJECT_DIR$/Thirdparty/g2o/lib/libg2o_solver_eigen.so" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Thirdparty/g2o/lib/libg2o_solver_pcg.so" beforeDir="false" afterPath="$PROJECT_DIR$/Thirdparty/g2o/lib/libg2o_solver_pcg.so" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Thirdparty/g2o/lib/libg2o_solver_slam2d_linear.so" beforeDir="false" afterPath="$PROJECT_DIR$/Thirdparty/g2o/lib/libg2o_solver_slam2d_linear.so" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Thirdparty/g2o/lib/libg2o_solver_structure_only.so" beforeDir="false" afterPath="$PROJECT_DIR$/Thirdparty/g2o/lib/libg2o_solver_structure_only.so" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Thirdparty/g2o/lib/libg2o_types_data.so" beforeDir="false" afterPath="$PROJECT_DIR$/Thirdparty/g2o/lib/libg2o_types_data.so" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Thirdparty/g2o/lib/libg2o_types_icp.so" beforeDir="false" afterPath="$PROJECT_DIR$/Thirdparty/g2o/lib/libg2o_types_icp.so" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Thirdparty/g2o/lib/libg2o_types_sba.so" beforeDir="false" afterPath="$PROJECT_DIR$/Thirdparty/g2o/lib/libg2o_types_sba.so" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Thirdparty/g2o/lib/libg2o_types_sclam2d.so" beforeDir="false" afterPath="$PROJECT_DIR$/Thirdparty/g2o/lib/libg2o_types_sclam2d.so" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Thirdparty/g2o/lib/libg2o_types_sim3.so" beforeDir="false" afterPath="$PROJECT_DIR$/Thirdparty/g2o/lib/libg2o_types_sim3.so" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Thirdparty/g2o/lib/libg2o_types_slam2d.so" beforeDir="false" afterPath="$PROJECT_DIR$/Thirdparty/g2o/lib/libg2o_types_slam2d.so" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Thirdparty/g2o/lib/libg2o_types_slam2d_addons.so" beforeDir="false" afterPath="$PROJECT_DIR$/Thirdparty/g2o/lib/libg2o_types_slam2d_addons.so" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Thirdparty/g2o/lib/libg2o_types_slam3d.so" beforeDir="false" afterPath="$PROJECT_DIR$/Thirdparty/g2o/lib/libg2o_types_slam3d.so" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Thirdparty/g2o/lib/libg2o_types_slam3d_addons.so" beforeDir="false" afterPath="$PROJECT_DIR$/Thirdparty/g2o/lib/libg2o_types_slam3d_addons.so" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/trajectory.txt" beforeDir="false" afterPath="$PROJECT_DIR$/trajectory.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,6 +46,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
@@ -47,11 +71,21 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="cf.first.check.clang-format" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/CMakeLists.txt" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
-  <component name="RunManager">
-    <configuration name="mono_tumrgbd" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS=" $PROJECT_DIR$/../../datasets/rgbd_dataset_freiburg1_xyz" REDIRECT_INPUT="false" ELEVATE="false" WORKING_DIR="file://$PROJECT_DIR$" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Project" TARGET_NAME="mono_tumrgbd" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Project" RUN_TARGET_NAME="mono_tumrgbd">
+  <component name="RunManager" selected="CMake Application.mono_tumrgbd">
+    <configuration name="mini_slam" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Mini-SLAM" TARGET_NAME="mini_slam" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="mono_euroc" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Mini-SLAM" TARGET_NAME="mono_euroc" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Mini-SLAM" RUN_TARGET_NAME="mono_euroc">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="mono_tumrgbd" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS=" $PROJECT_DIR$/../../datasets/rgbd_dataset_freiburg1_xyz" REDIRECT_INPUT="false" ELEVATE="false" WORKING_DIR="file://$PROJECT_DIR$" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Mini-SLAM" TARGET_NAME="mono_tumrgbd" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Mini-SLAM" RUN_TARGET_NAME="mono_tumrgbd">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -61,6 +95,11 @@
         <option name="com.jetbrains.cidr.cpp.gradle.execution.GradleNativeBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="CMake Application.mono_euroc" />
+      <item itemvalue="CMake Application.mono_tumrgbd" />
+      <item itemvalue="CMake Application.mini_slam" />
+    </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -79,7 +118,8 @@
       <workItem from="1617307367638" duration="143000" />
       <workItem from="1617307549928" duration="4000" />
       <workItem from="1617308531921" duration="310000" />
-      <workItem from="1617308854220" duration="77000" />
+      <workItem from="1617308854220" duration="1519000" />
+      <workItem from="1617459338203" duration="1351000" />
     </task>
     <servers />
   </component>

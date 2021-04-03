@@ -169,9 +169,9 @@ int guidedMatching(Frame& refFrame, Frame& currFrame, int th, std::vector<int>& 
 int searchWithProjection(Frame& currFrame, int th, std::unordered_set<ID>& vMapPointsIds, Map* pMap){
     CameraModel* currCalibration = currFrame.getCalibration().get();
     Sophus::SE3f Tcw = currFrame.getPose();
+    cv::Mat currDesc = currFrame.getDescriptors();
 
     vector<size_t> vIndicesToCheck(100);
-    //cout<<"hola"<<endl;
     int nMatches = 0, vCos = 0, invDist = 0, noClose = 0;
     for(ID mpId : vMapPointsIds){
         //Clear previous matches
@@ -218,22 +218,21 @@ int searchWithProjection(Frame& currFrame, int th, std::unordered_set<ID>& vMapP
         /*
          * Your matching code for Task 4 goes here
          */
-        /*
+
         auto world_point = pMP->getWorldPosition();
         auto transformed = Tcw * world_point;
         auto pP = currCalibration->project(transformed);
-        currFrame.getFeaturesInArea(pP.x,pP.y,radius,0,0,vIndicesToCheck);
+        currFrame.getFeaturesInArea(pP.x,pP.y,radius,predictedOctave,predictedOctave,vIndicesToCheck);
 
         //Match with the one with the smallest Hamming distance
         int bestDist = 255, secondBestDist = 255;
         size_t bestIdx;
         for(auto j : vIndicesToCheck){
-            if(currFrame.getMapPoint(j)){
-                continue;
-            }
-            auto candidate = currFrame.getMapPoint(j);
-            int dist = HammingDistance(pMP->getDescriptor(),candidate->getDescriptor());
-
+            //if(currFrame.getMapPoint(j)){
+            //    continue;
+            //}
+            auto candidate = currDesc.row(j);
+            int dist = HammingDistance(pMP->getDescriptor(),candidate);
             if(dist < bestDist){
                 secondBestDist = bestDist;
                 bestDist = dist;
@@ -249,7 +248,7 @@ int searchWithProjection(Frame& currFrame, int th, std::unordered_set<ID>& vMapP
         }
 
     }
-        */
+
 
 
 
