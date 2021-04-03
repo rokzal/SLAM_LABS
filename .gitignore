@@ -3,3 +3,6 @@
 /lab3/cmake-build-debug/*
 /lab3/Thirdparty/g2o/build/*
 /lab3/Thirdparty/Sophus/build/*
+/lab3/trajectory.txt
+/lab3/KeyFrameTrajectory.txt
+
