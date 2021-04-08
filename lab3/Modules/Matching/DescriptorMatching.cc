@@ -89,7 +89,13 @@ int searchForInitializaion(Frame& refFrame, Frame& currFrame, int th, vector<int
             }
         }
         if(bestDist <= th && (float)bestDist < (float(secondBestDist)*0.9)){
+            if(vnMatches21[bestIdx]>=0){
+                vMatches[vnMatches21[bestIdx]]=-1;
+                nMatches--;
+            }
+
             vMatches[i] = bestIdx;
+            vnMatches21[bestIdx]= i;
             nMatches++;
         }
 
