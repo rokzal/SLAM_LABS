@@ -244,6 +244,7 @@ bool Tracking::monocularMapInitialization() {
     }
 
     cout << "Map initialized with " << nTriangulated << " MapPoints" << endl;
+    cout <<"Relative Camera pose : "<<Tcw.translation()<<endl;
 
     shared_ptr<KeyFrame> kf0(new KeyFrame(prevFrame_));
     shared_ptr<KeyFrame> kf1(new KeyFrame(currFrame_));

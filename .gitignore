@@ -6,3 +6,10 @@
 /lab3/trajectory.txt
 /lab3/KeyFrameTrajectory.txt
 
+
+/lab4/build/*
+/lab4/cmake-build-debug/*
+/lab4/Thirdparty/g2o/build/*
+/lab4/Thirdparty/Sophus/build/*
+/lab4/trajectory.txt
+/lab4/KeyFrameTrajectory.txt
