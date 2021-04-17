@@ -296,7 +296,6 @@ bool Tracking::cameraTracking() {
     if(nMatches < 20){
         nMatches = guidedMatching(prevFrame_,currFrame_,settings_.getMatchingGuidedTh(),vMatches_,2);
     }
-
     //Run a pose optimization
     nFeatTracked_ = poseOnlyOptimization(currFrame_);
 
@@ -307,7 +306,11 @@ bool Tracking::cameraTracking() {
     mapVisualizer_->updateCurrentPose(currPose);
 
     //We enforce a minimum of 20 MapPoint matches to consider the estimation as good
+    cout<<"Nmatches"<<nMatches<<endl;
+    cout <<"nFeatTracked"<< nFeatTracked_<<endl;
     return nFeatTracked_ >= 20;
+    //Sin imponer minimo de 20 funciona mejor¿?
+    //return true;
 }
 
 bool Tracking::trackLocalMap() {
@@ -342,7 +345,9 @@ bool Tracking::trackLocalMap() {
 
 
     //Run a pose optimization
-    nFeatTracked_ = poseOnlyOptimization(currFrame_);
+    //Since camera traSSSScking fails, first, dont assign this.
+    //nFeatTracked_ = poseOnlyOptimization(currFrame_);
+    poseOnlyOptimization(currFrame_);
 
     currFrame_.checkAllMapPointsAreGood();
 
@@ -358,11 +363,11 @@ bool Tracking::needNewKeyFrame() {
     /*
      * Your code for Lab 4 - Task 1 here!
      */
-    if(nFeatTracked_ < 30){
+    if(nFeatTracked_ < 50){
         cout<<"Keyframe nuevo"<<endl;
         return true;
     }
-    //cout << nFeatTracked_<<endl;
+    cout <<"No keyframe : " <<nFeatTracked_<<endl;
     return false;
 }
 

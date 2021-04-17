@@ -102,6 +102,7 @@ void Map::addObservation(ID kfId, ID mpId, size_t idx) {
 }
 
 void Map::removeObservation(ID kfId, ID mpId) {
+    //cout<<"COUNT"<<mKeyFrameObs_[kfId][1]<<endl;
     assert(mKeyFrames_.count(kfId) != 0);
     assert(mMapPoints_.count(mpId) != 0);
     assert(mKeyFrameObs_[kfId].count(mpId) != 0);

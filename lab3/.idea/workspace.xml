@@ -14,11 +14,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="85335c6e-9b95-4cc9-b146-bbe1b9ec9ee5" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/KeyFrameTrajectory.txt" beforeDir="false" afterPath="$PROJECT_DIR$/KeyFrameTrajectory.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Modules/Tracking/Tracking.cc" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/Tracking/Tracking.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/Matching/DescriptorMatching.cc" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/Matching/DescriptorMatching.cc" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/trajectory.txt" beforeDir="false" afterPath="$PROJECT_DIR$/trajectory.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lab4/Modules/Mapping/LocalMapping.cc" beforeDir="false" afterPath="$PROJECT_DIR$/../lab4/Modules/Mapping/LocalMapping.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lab4/Modules/Matching/DescriptorMatching.cc" beforeDir="false" afterPath="$PROJECT_DIR$/../lab4/Modules/Matching/DescriptorMatching.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lab4/Modules/Optimization/g2oTypes.h" beforeDir="false" afterPath="$PROJECT_DIR$/../lab4/Modules/Optimization/g2oTypes.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lab4/Modules/Tracking/Tracking.cc" beforeDir="false" afterPath="$PROJECT_DIR$/../lab4/Modules/Tracking/Tracking.cc" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,7 +56,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="cf.first.check.clang-format" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../lab4" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
   <component name="RunManager" selected="CMake Application.mono_tumrgbd">
@@ -105,6 +108,9 @@
       <workItem from="1617459338203" duration="2779000" />
       <workItem from="1617885985523" duration="6963000" />
       <workItem from="1618487216704" duration="58000" />
+      <workItem from="1618655913966" duration="82000" />
+      <workItem from="1618656180112" duration="52000" />
+      <workItem from="1618663396085" duration="257000" />
     </task>
     <servers />
   </component>

@@ -112,22 +112,28 @@ void LocalMapping::triangulateNewMapPoints() {
                 Eigen::Vector3f xn2;
                 Eigen::Vector3f x3D;
                 auto p1 = currKeyFrame_->getKeyPoint(i).pt;
-                auto p2 = pKF->getKeyPoint(i).pt;
+                auto p2 = pKF->getKeyPoint(vMatches[i]).pt;
                 //(E*calibration->unproject(kf1->getKeyPoint(i).pt).transpose()).normalized();
                 xn1 = calibration1->unproject(p1).normalized();
                 xn2 = calibration2->unproject(p2).normalized();
+
+                //Esto lo devuelve (x3D) en coordenadas de world.
                 triangulate(xn1,xn2,T1w,T2w,x3D);
+
                 //Check in front of both cameras.
                 auto x_1 = T1w * x3D;
                 auto x_2 = T2w * x3D;
                 if (x_2[2] < 0 || x_1[2] < 0){
-                    continue;
+                   continue;
                 }
                 //Check parallax.
                 auto ray1 = (T1w.inverse().rotationMatrix() * xn1).normalized();
                 auto ray2 = (T2w.inverse().rotationMatrix() * xn2).normalized();
-                auto parallax = cosRayParallax(T1w.rotationMatrix() * xn1,xn2);
-                if(parallax <settings_.getMinCos() ){
+                auto parallax = cosRayParallax(ray1,ray2);
+
+                //auto parallax = cosRayParallax((T1w.rotationMatrix() * xn1).normalized(),xn2);
+                //Con esto furula peor
+                if(parallax  < settings_.getMinCos() ){
                     continue;
                 }
                 //Check reprojection error.
@@ -140,13 +146,28 @@ void LocalMapping::triangulateNewMapPoints() {
                 auto rep_error_1 = squaredReprojectionError(p1,cv_p1);
                 auto rep_error_2 = squaredReprojectionError(p2,cv_p2);
 
-                if (rep_error_1 > 2 || rep_error_2 > 2){
+                if (rep_error_1 > 5.991 || rep_error_2 > 5.991){
                     continue;
                 }
 
+                //Add Map point
+                std::shared_ptr<MapPoint> map_point(new MapPoint(x3D));
+                pMap_->insertMapPoint(map_point);
+                //Bien
+                pMap_->addObservation(currKeyFrame_->getId(),map_point->getId(),i);
+                pMap_->addObservation(pKF->getId(),map_point->getId(),vMatches[i]);
+
+                currKeyFrame_->setMapPoint(i,map_point);
+                pKF->setMapPoint(vMatches[i],map_point);
+
+
+                nTriangulated ++;
             }
+
         }
     }
+    cout<<"Added newpoints:"<<nTriangulated<<endl;
+
 }
 
 void LocalMapping::checkDuplicatedMapPoints() {

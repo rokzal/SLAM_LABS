@@ -66,7 +66,7 @@ int searchForInitializaion(Frame& refFrame, Frame& currFrame, int th, vector<int
 
         //Get keypoints within selected distance.
         float radius = 50;
-        currFrame.getFeaturesInArea(keypoint.pt.x,keypoint.pt.y,radius,0,0,vIndicesToCheck);
+        currFrame.getFeaturesInArea(keypoint.pt.x,keypoint.pt.y,radius,0,10,vIndicesToCheck);
 
         //Match with the one with the smallest Hamming distance
         int bestDist = 255, secondBestDist = 255;
@@ -120,11 +120,11 @@ int guidedMatching(Frame& refFrame, Frame& currFrame, int th, std::vector<int>& 
     Sophus::SE3f Tcw = currFrame.getPose();
 
     int nMatches = 0;
+    int nMappoints = 0;
     for(size_t i = 0; i < vRefMapPoints.size(); i++){
         if(!vRefMapPoints[i]){
             continue;
         }
-
         //Project map point into the current frame
         Eigen::Vector3f p3Dcam = Tcw * vRefMapPoints[i]->getWorldPosition();
         cv::Point2f uv = currCamera->project(p3Dcam);
@@ -167,8 +167,10 @@ int guidedMatching(Frame& refFrame, Frame& currFrame, int th, std::vector<int>& 
             currFrame.setMapPoint(bestIdx,vRefMapPoints[i]);
             nMatches++;
         }
-    }
+        nMappoints ++;
 
+    }
+    cout<<"Nmappoints"<<nMappoints<<endl;
     return nMatches;
 }
 
@@ -228,15 +230,17 @@ int searchWithProjection(Frame& currFrame, int th, std::vector<std::shared_ptr<M
         auto world_point = pMP->getWorldPosition();
         auto transformed = Tcw * world_point;
         auto pP = currCalibration->project(transformed);
-        currFrame.getFeaturesInArea(pP.x,pP.y,radius,predictedOctave,predictedOctave,vIndicesToCheck);
+        currFrame.getFeaturesInArea(pP.x,pP.y,radius,predictedOctave-1,predictedOctave+1,vIndicesToCheck);
 
         //Match with the one with the smallest Hamming distance
         int bestDist = 255, secondBestDist = 255;
         size_t bestIdx;
         for(auto j : vIndicesToCheck){
-            //if(currFrame.getMapPoint(j)){
-            //    continue;
-            //}
+            //Comented ¿?
+            if(currFrame.getMapPoint(j)){
+                continue;
+            }
+
             auto candidate = currDesc.row(j);
             int dist = HammingDistance(pMP->getDescriptor(),candidate);
             if(dist < bestDist){
@@ -249,6 +253,7 @@ int searchWithProjection(Frame& currFrame, int th, std::vector<std::shared_ptr<M
             }
         }
         if(bestDist <= th && (float)bestDist < (float(secondBestDist)*0.9)){
+        //if(bestDist <= th && (float)bestDist ){
             currFrame.setMapPoint(bestIdx,pMP);
             nMatches++;
         }
@@ -334,13 +339,14 @@ int searchForTriangulation(KeyFrame* kf1, KeyFrame* kf2, int th, float fEpipolar
             nMatches++;
         }
     }
-
+    //cout<<"Number of matches " << nMatches<<endl;
     return nMatches;
 }
 
 int fuse(std::shared_ptr<KeyFrame> pKF, int th, std::vector<std::shared_ptr<MapPoint>>& vMapPoints, Map* pMap){
     Sophus::SE3f Tcw = pKF->getPose();
     shared_ptr<CameraModel> calibration = pKF->getCalibration();
+    cv::Mat currDesc = pKF->getDescriptors();
 
     vector<size_t> vIndicesToCheck(100);
 
@@ -368,6 +374,55 @@ int fuse(std::shared_ptr<KeyFrame> pKF, int th, std::vector<std::shared_ptr<MapP
         /*
          * Your code for Lab 4 - Task 3 here!
          */
+        auto world_point = pMP->getWorldPosition();
+        auto transformed = Tcw * world_point;
+        auto pP = calibration->project(transformed);
+
+        //Get last octave in which the point was seen
+        int nLastOctave = pKF->getKeyPoint(i).octave;
+
+        //Search radius depends on the size of the point in the image
+        float radius = 15*pKF->getScaleFactor(nLastOctave);
+
+        pKF->getFeaturesInArea(pP.x,pP.y,radius,nLastOctave-1,nLastOctave+1,vIndicesToCheck);
+
+        //Match with the one with the smallest Hamming distance
+        int bestDist = 255, secondBestDist = 255;
+        size_t bestIdx;
+        for(auto j : vIndicesToCheck){
+            //if(pKF->getMapPoint(j)){
+            //    continue;
+            //}
+
+            auto candidate = currDesc.row(j);
+            int dist = HammingDistance(pMP->getDescriptor(),candidate);
+            if(dist < bestDist){
+                secondBestDist = bestDist;
+                bestDist = dist;
+                bestIdx = j;
+            }
+            else if(dist < secondBestDist){
+                secondBestDist = dist;
+            }
+        }
+        if(bestDist <= th && (float)bestDist < (float(secondBestDist)*0.9)){
+            //No previous match.
+            auto aMappoint = pKF->getMapPoints()[bestIdx];
+            if (!aMappoint) {
+                pMap->addObservation(pKF->getId(),pMP->getId(),bestIdx);
+                pKF->setMapPoint(bestIdx, pMP);
+            }
+            //Previous match, fuse.
+            else{
+                //Alredy done in Fuse map Points, not really sure if we should do it here or
+                //not, or somewhere else. Also adds observations.
+                //if(pMap->isMapPointInKeyFrame(aMappoint->getId(),pKF->getId())>0)
+                //   pMap->removeObservation(pKF->getId(),aMappoint->getId());
+                pMap->fuseMapPoints(pMP->getId(),aMappoint->getId());
+            }
+            nFused++;
+        }
+
     }
 
     return nFused;

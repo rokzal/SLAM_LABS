@@ -78,7 +78,7 @@ public:
          * Your code for Lab 3 - Task 3 here! Example:
          * _error = Eigen::Vector2d::Ones()*100;
          */
-         Eigen::Vector2d projected;
+        Eigen::Vector2d projected;
         p3Dw = Tcw.map(p3Dw);
         projected = pCamera->project(p3Dw);
         _error = Eigen::Vector2d(obs[0]-projected[0],obs[1]-projected[1]);

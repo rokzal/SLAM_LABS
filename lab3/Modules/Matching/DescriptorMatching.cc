@@ -228,15 +228,15 @@ int searchWithProjection(Frame& currFrame, int th, std::unordered_set<ID>& vMapP
         auto world_point = pMP->getWorldPosition();
         auto transformed = Tcw * world_point;
         auto pP = currCalibration->project(transformed);
-        currFrame.getFeaturesInArea(pP.x,pP.y,radius,predictedOctave,predictedOctave,vIndicesToCheck);
+        currFrame.getFeaturesInArea(pP.x,pP.y,radius,predictedOctave-1,predictedOctave+1,vIndicesToCheck);
 
         //Match with the one with the smallest Hamming distance
         int bestDist = 255, secondBestDist = 255;
         size_t bestIdx;
         for(auto j : vIndicesToCheck){
-            //if(currFrame.getMapPoint(j)){
-            //    continue;
-            //}
+            if(currFrame.getMapPoint(j)){
+                continue;
+            }
             auto candidate = currDesc.row(j);
             int dist = HammingDistance(pMP->getDescriptor(),candidate);
             if(dist < bestDist){
