@@ -25,6 +25,7 @@ MapPoint::MapPoint(Eigen::Vector3f &p3d) {
     position3D_ = p3d;
 
     nId_ = nNextId_++;
+    ID_Frame_ = 1;
 }
 
 Eigen::Vector3f MapPoint::getWorldPosition() {

@@ -252,8 +252,7 @@ int searchWithProjection(Frame& currFrame, int th, std::vector<std::shared_ptr<M
                 secondBestDist = dist;
             }
         }
-        if(bestDist <= th && (float)bestDist < (float(secondBestDist)*0.9)){
-        //if(bestDist <= th && (float)bestDist ){
+        if(bestDist <= th  && (float)bestDist < (float(secondBestDist)*0.9)){
             currFrame.setMapPoint(bestIdx,pMP);
             nMatches++;
         }

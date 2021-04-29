@@ -54,6 +54,26 @@ void LocalMapping::mapPointCulling() {
     /*
      * Your code for Lab 4 - Task 4 here!
      */
+    int min_obs = 6,max_old = 10;
+    auto mpoints = pMap_->getMapPoints();
+    auto ID_acc = currKeyFrame_->getId();
+
+    int acc=0,rej=0;
+    for (auto map_point : mpoints){
+        if((ID_acc - map_point.second->ID_Frame_) > max_old){
+            //cout<<"ID_FRAME : "<<ID_acc<<endl;
+            //cout<<"ID_frame_mappoint : "<<map_point.second->ID_Frame_<<endl;
+            if (pMap_->getNumberOfObservations(map_point.first)<min_obs){
+                rej++;
+                pMap_->removeMapPoint(map_point.first);
+            }
+            else{
+                acc++;
+            }
+        }
+    }
+    cout<<"Rejected = "<<rej<<endl;
+    cout<<"Accepted = "<<acc<<endl;
 }
 
 void LocalMapping::triangulateNewMapPoints() {
@@ -131,8 +151,6 @@ void LocalMapping::triangulateNewMapPoints() {
                 auto ray2 = (T2w.inverse().rotationMatrix() * xn2).normalized();
                 auto parallax = cosRayParallax(ray1,ray2);
 
-                //auto parallax = cosRayParallax((T1w.rotationMatrix() * xn1).normalized(),xn2);
-                //Con esto furula peor
                 if(parallax  < settings_.getMinCos() ){
                     continue;
                 }
@@ -152,6 +170,12 @@ void LocalMapping::triangulateNewMapPoints() {
 
                 //Add Map point
                 std::shared_ptr<MapPoint> map_point(new MapPoint(x3D));
+
+                //Add frame when the map point was created
+                auto ID = currKeyFrame_->getId();
+                map_point->ID_Frame_ = ID;
+
+
                 pMap_->insertMapPoint(map_point);
                 //Bien
                 pMap_->addObservation(currKeyFrame_->getId(),map_point->getId(),i);

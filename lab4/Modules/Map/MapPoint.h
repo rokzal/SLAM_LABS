@@ -93,6 +93,10 @@ private:
     //Unique id
     long unsigned int nId_;
     static long unsigned int nNextId_;
+public:
+    long unsigned int ID_Frame_;
+
+
 };
 
 
